@@ -1,0 +1,23 @@
+NEXT STRUCTURE
+
+
+project-root/
+├── src/
+│   ├── app/                # App Router directory
+│   │   ├── layout.tsx      # Root layout (shared across all pages)
+│   │   ├── page.tsx        # Homepage
+│   │   ├── about/          # Nested route (e.g., /about)
+│   │   │   ├── layout.tsx  # About-specific layout
+│   │   │   ├── page.tsx    # About page
+│   │   ├── api/            # API routes (serverless functions)
+│   │   │   └── hello/route.ts # API example
+│   │   ├── loading.tsx     # Global loading UI
+│   │   ├── error.tsx       # Global error UI
+│   │   └── styles/         # Global CSS files
+│   ├── components/         # Reusable UI components
+│   ├── styles/             # Global styles and CSS files
+│   ├── utils/              # Utility functions
+│   ├── hooks/              # Custom React hooks
+│   ├── services/           # API calls and service logic
+│   ├── types/              # TypeScript types/interfaces
+│   └── constants/          # Application-wide constants
