@@ -1,3 +1,5 @@
+'use client'
+
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
@@ -12,25 +14,41 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { useAppContext } from "@/context/AppContext";
+import { useResultsContext } from "@/context/ResultsContext";
 import { FormFields, calcFormSchema } from "@/schemas/calcForm.schema"; // Import the schema used in AppContext
 import { useEffect } from "react";
-import { calculate } from "@/lib/calculator";
+import { calculate } from "@/lib/calculate";
+import { useRouter } from "next/navigation";
+import { PossibleResultType } from "@/types";
 
 export default function CalcForm() {
-  const { formData, setFormData, postalCode, setPossibleResults } = useAppContext();
+  const { formData, setFormData, postalCode } = useAppContext();
 
+  const { possibleResults, setPossibleResults } = useResultsContext();
+
+  const router = useRouter();
   const form = useForm<FormFields>({
     resolver: zodResolver(calcFormSchema),
     defaultValues: formData || {}, // Use centralized formData
   });
 
   const handleFormSubmit = async (data: FormFields) => {
-    console.log("Handle Form Submit:", data);
-    console.log("postalCode:", postalCode);
+    console.log("postalCode from form:", postalCode);
     setFormData(data); // Update context
-    const possibleResults = postalCode?.id ? await calculate(data, postalCode) : [];
-    setPossibleResults(possibleResults);
-    console.log("Form Submitted:", data);
+    if (postalCode) {
+      console.log("Form Submitted:", data);
+      const response: PossibleResultType[] = await calculate(data, postalCode);
+      if (possibleResults.length > 0 && possibleResults[0].requestValues !== data) {
+        // combine the two arrays
+        setPossibleResults([...possibleResults, ...response]);
+
+      } else {
+        setPossibleResults(response);
+      }
+    } else {
+      console.log("no postal code")
+      router.back();
+    }
   };
 
   useEffect(() => {

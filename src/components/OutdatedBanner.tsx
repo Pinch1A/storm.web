@@ -1,10 +1,10 @@
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
-import type{ FC } from "react";
+import type { FC } from "react";
 
 interface OutdatedBannerProps {
   onUpdate: () => void;
-  onIgnore: () => void;
+  // onIgnore: () => void;
   isLoading: boolean;
 }
 
@@ -19,9 +19,9 @@ export const OutdatedBanner: FC<OutdatedBannerProps> = ({ onUpdate, onIgnore, is
           <Button onClick={onUpdate} className="bg-green-600 hover:bg-green-700 text-white" disabled={isLoading}>
             {isLoading ? <><Loader2 className="w-4 h-4 animate-spin" /> Aggiornamento in corso...</> : 'Aggiorna ora'}
           </Button>
-          <Button onClick={onIgnore} className="bg-gray-500 hover:bg-gray-600 text-white" disabled={isLoading}>
+          {/* <Button onClick={())} className="bg-gray-500 hover:bg-gray-600 text-white" disabled={isLoading}>
             Ignora
-          </Button>
+          </Button> */}
         </div>
       </div>
     </div>

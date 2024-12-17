@@ -1,14 +1,12 @@
-import { useState, type FC, type ReactNode } from "react";
+import { useEffect, useState, type FC, type ReactNode } from "react";
 
 import { OutdatedBanner } from "@/components/OutdatedBanner";
 import { useAuth } from "@/context/AuthContext";
-import { useDataContext } from "@/context/DataContext";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
 import { useRouter } from "next/router";
-// import { saveDataWithTimestamp } from "@/utils/timeStampStorage";
-import { fetchProvinces, fetchProducts, fetchSussistenza } from "@/services/fetchAndSaveData";
-import { useAppContext } from "@/context/AppContext";
+import storageUtil from "@/utils/storageUtil";
+import { fetchAndSaveData } from "@/services/fetchAndSaveData";
 
 const Layout: FC<{ children: ReactNode }> = ({ children }) => {
 
@@ -16,31 +14,35 @@ const Layout: FC<{ children: ReactNode }> = ({ children }) => {
   const { user, logout } = useAuth();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
-  const { clearResults } = useAppContext();
-  const { isDataOutdated, setDataAsUpdated } = useDataContext();
+  const [isDataStale, setIsDataStale] = useState(false);
+
+  useEffect(() => {
+    // Check if data timestamp is stale (1 hour)
+    const lastFetched = storageUtil.getTimestamp("dataTimestamp");
+    const isStale = !lastFetched || Date.now() - lastFetched > 3600 * 1000;
+
+    if (isStale) {
+      setIsDataStale(true);
+    }
+  }, []);
 
   const handleUpdateData = async () => {
-    try {
-      setIsLoading(true);
-      await fetchProducts();
-      await fetchProvinces();
-      await fetchSussistenza();
+    // Refetch province as it's the main data
+    await fetchAndSaveData("province");
 
-      // saveDataWithTimestamp();
-      clearResults();
-      setDataAsUpdated();
-      setIsLoading(false);
-    } catch (error) {
-      console.error("Error updating data:", error);
-    }
+    // Fetch other dependent data
+    await fetchAndSaveData("product");
+    await fetchAndSaveData("sussistenza");
+
+    setIsDataStale(false);
   };
 
   return (
     <div className="min-h-screen flex flex-col">
-      {isDataOutdated && (
+      {isDataStale && (
         <OutdatedBanner
           onUpdate={handleUpdateData}
-          onIgnore={() => setDataAsUpdated()}
+          // onIgnore={() => setDataAsUpdated()}
           isLoading={isLoading}
         />
       )}

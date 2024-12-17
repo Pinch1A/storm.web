@@ -1,23 +1,12 @@
 import React, { createContext, useState, useContext, ReactNode } from "react";
-import { PossibleResultType, ProvinceItemType } from "@/types";
-import { FormFields } from "@/schemas/calcForm.schema";
+import { ProvinceItemType, FormFields, PossibleResultType } from "@/types";
 
 interface AppContextType {
   postalCode: ProvinceItemType | null;
   setPostalCode: (code: ProvinceItemType | null) => void;
-  formData: FormFields | null;
+  formData: FormFields;
   setFormData: (data: FormFields) => void;
-  possibleResults: PossibleResultType[];
-  setPossibleResults: (results: PossibleResultType[]) => void;
-  selectedResults: PossibleResultType[];
-  setSelectedResults: (results: PossibleResultType[]) => void;
-  showSelectedResults: boolean;
-  setShowSelectedResults: (show: boolean) => void;
-  pickedOffer: PossibleResultType | null;
-  setPickedOffer: (offer: PossibleResultType | null) => void;
-  addPossibleResult: (result: PossibleResultType) => void;
-  addSelectedResult: (result: PossibleResultType) => void;
-  clearResults: () => void;
+  clearAppData: () => void;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -32,72 +21,33 @@ export const useAppContext = () => {
 
 export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [postalCode, setPostalCode] = useState<ProvinceItemType | null>(null);
-  const [formData, setFormData] = useState<FormFields | null>(
-    {
+  const [formData, setFormData] = useState<FormFields>({
+    amount: "",
+    ltv: "",
+    years: "",
+    reddito: { amount: "", type: "Monthly" },
+    financialDebts: { amount: "", type: "Monthly" },
+  });
+
+  const clearAppData = () => {
+    setPostalCode(null);
+    setFormData({
       amount: "",
       ltv: "",
       years: "",
-      reddito: {
-        amount: "", // Default value for reddito.amount
-        type: "Monthly", // Default value for reddito.type
-      },
-      financialDebts: {
-        amount: "", // Default value for financialDebts.amount
-        type: "Monthly", // Default value for financialDebts.type
-      },
-    }
-  );
-  const [possibleResults, setPossibleResults] = useState<PossibleResultType[]>([]);
-  const [selectedResults, setSelectedResults] = useState<PossibleResultType[]>([]);
-  const [pickedOffer, setPickedOffer] = useState<PossibleResultType | null>(null);
-  const [showSelectedResults, setShowSelectedResults] = useState(false);
-
-  const addPossibleResult = (newResult: PossibleResultType) => {
-    setPossibleResults((prevResults) =>
-      [...prevResults, newResult].sort((a, b) => {
-        const feeA = a.proposal?.[0]?.fee ?? Infinity;
-        const feeB = b.proposal?.[0]?.fee ?? Infinity;
-        return feeA - feeB;
-      })
-    );
-  };
-
-  const addSelectedResult = (newResult: PossibleResultType) => {
-    setSelectedResults((prevResults) =>
-      [...prevResults, newResult].sort((a, b) => {
-        const feeA = a.proposal?.[0]?.fee ?? Infinity;
-        const feeB = b.proposal?.[0]?.fee ?? Infinity;
-        return feeA - feeB;
-      })
-    );
-  };
-
-  const clearResults = () => {
-    setPossibleResults([]);
-    setSelectedResults([]);
-    setPickedOffer(null);
+      reddito: { amount: "", type: "Monthly" },
+      financialDebts: { amount: "", type: "Monthly" },
+    });
   };
 
   return (
-    <AppContext.Provider
-      value={{
-        postalCode,
-        setPostalCode,
-        formData,
-        setFormData,
-        possibleResults,
-        setPossibleResults,
-        selectedResults,
-        setSelectedResults,
-        showSelectedResults,
-        setShowSelectedResults,
-        pickedOffer,
-        setPickedOffer,
-        addPossibleResult,
-        addSelectedResult,
-        clearResults,
-      }}
-    >
+    <AppContext.Provider value={{
+      postalCode,
+      setPostalCode,
+      formData,
+      setFormData,
+      clearAppData,
+    }}>
       {children}
     </AppContext.Provider>
   );

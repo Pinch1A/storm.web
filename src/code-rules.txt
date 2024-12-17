@@ -1,0 +1,14 @@
+/context
+  AppContext.tsx
+  ResultsContext.tsx
+  Providers.tsx
+/utils
+  storage/
+    storage.ts
+    storageUtil.ts
+    dataManager.ts
+/services
+  fetchAndSaveData.ts
+  calculate.ts
+/pages
+  _app.tsx

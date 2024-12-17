@@ -1,69 +1,22 @@
-'use client'
+const storageUtil = {
+  getData: (key: string) => {
+    const data = localStorage.getItem(key);
+    return data ? JSON.parse(data) : null;
+  },
 
-import storage from './storage';
+  setData: (key: string, value: any) => {
+    localStorage.setItem(key, JSON.stringify(value));
+  },
 
-const TIMESTAMP_KEY = 'last_updated_timestamp';
+  getTimestamp: (key: string) => {
+    const timestamp = localStorage.getItem(key);
+    return timestamp ? parseInt(timestamp, 10) : null;
+  },
 
-export interface StorageUtil<T> {
-  saveData: (data: T) => Promise<void>;
-  getData: () => Promise<T | null>;
-  clearData: () => Promise<void>;
-}
-
-// Save the timestamp when data is updated
-const saveTimestamp = async (): Promise<void> => {
-  const timestamp = Date.now();
-  await storage.setItem(TIMESTAMP_KEY, timestamp);
+  setTimestamp: (key: string) => {
+    const currentTime = Date.now();
+    localStorage.setItem(key, currentTime.toString());
+  },
 };
 
-// Get the saved timestamp
-export const getTimestamp = async (): Promise<number | null> => {
-  try {
-    const timestamp: number | null = await storage.getItem(TIMESTAMP_KEY);
-    console.log("Timestamp retrieved from storage:", timestamp);
-    return timestamp || null;
-  } catch (error) {
-    console.error('Error retrieving timestamp:', error);
-    return null;
-  }
-};
-
-// Centralized utility generator for handling specific keys
-export const createStorageUtil = <T>(key: string): StorageUtil<T> => {
-  return {
-    saveData: async (data: T): Promise<void> => {
-      try {
-        await storage.setItem(key, data);
-        await saveTimestamp(); // Update the timestamp
-        console.log(`${key} saved successfully`);
-      } catch (error) {
-        console.error(`Error saving ${key}:`, error);
-      }
-    },
-    getData: async (): Promise<T | null> => {
-      console.log("Getting data for:", key);
-      try {
-        const data: T | null = await storage.getItem(key);
-        console.log("Data retrieved from storage:", data);
-        return data || null;
-      } catch (error: any) {
-        if (error.name === 'NotFoundError') {
-          console.log(`${key} not found`);
-        } else if (error.name === 'ExpiredError') {
-          console.log(`${key} expired`);
-        } else {
-          console.error(`Error retrieving ${key}:`, error);
-        }
-        return null;
-      }
-    },
-    clearData: async (): Promise<void> => {
-      try {
-        await storage.removeItem(key);
-        console.log(`${key} cleared successfully`);
-      } catch (error) {
-        console.error(`Error clearing ${key}:`, error);
-      }
-    },
-  };
-};
+export default storageUtil;

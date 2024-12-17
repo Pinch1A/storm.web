@@ -21,6 +21,7 @@ export interface ProductType {
   interests?: InterestItemType[];
   type: 'fixed' | 'variable';
   bank?: BankType;
+  rr_threshold: number;
 }
 
 export interface InterestItemType {
@@ -53,9 +54,7 @@ export interface FormFields {
   ltv: string;
   years: string;
   financialDebts?: AmountAndType;
-  familyVariation?: string;
   reddito?: AmountAndType;
-  sussistenza?: number;
 }
 
 export interface SelectedResultType {

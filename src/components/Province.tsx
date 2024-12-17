@@ -60,18 +60,18 @@ const ProvincePage: React.FC = () => {
       }
     };
 
-    const loadSelected = async () => {
-      const storedSelected = await getSelectedProvince();
-      if (storedSelected) {
-        setSelectedProvince(storedSelected);
-        appContext?.setPostalCode(storedSelected);
-      }
-    };
+    // const loadSelected = async () => {
+    //   const storedSelected = await getSelectedProvince();
+    //   if (storedSelected) {
+    //     setSelectedProvince(storedSelected);
+    //     appContext?.setPostalCode(storedSelected);
+    //   }
+    // };
 
     loadProvinceData();
     loadProductsData();
     loadSussistenzaData();
-    loadSelected();
+    // loadSelected();
     appContext?.setPossibleResults([]);
     appContext?.setSelectedResults([]);
     appContext?.setPickedOffer(null);

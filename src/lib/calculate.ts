@@ -1,11 +1,11 @@
-import { getProductList } from "@/utils/productsStorage";
 import { FormFields, InterestItemType, PossibleResultType, ProductType, ProvinceItemType } from "@/types";
 import { calcolaRataMensile } from "./calc/calcolaRata";
 import { calcolaRR } from "./calc/calcolaRR";
+import storageUtil from "@/utils/storageUtil";
 
 export const calculate = async (formFields: FormFields, province: ProvinceItemType): Promise<PossibleResultType[]> => {
   // Get products from storage
-  const products = await getProductList();
+  const products = await storageUtil.getData("productData");
 
   if (!products) {
     console.error("No products found in storage");
@@ -31,17 +31,22 @@ export const calculate = async (formFields: FormFields, province: ProvinceItemTy
       .map((interest: InterestItemType) => {
         // Calculate the monthly fee and other derived values
         const rata = calcolaRataMensile(parseFloat(formFields.amount), parseFloat(interest.rate), parseInt(formFields.years));
+        const rrMethod = product.bank?.rr_method;
+        const reddito = formFields.reddito;
+        const redditoMensile = reddito ? parseFloat(reddito.amount?.toString() ?? '0') / (reddito.type === 'Annual' ? 12 : 1) : 0;
+        const financialDebts = formFields.financialDebts || { amount: 0, type: 'Annual' };
+
         return {
           ...interest,
           tan: interest.rate, // Assuming TAN is already provided as `rate`
           fee: rata,
-          incomeFeePerc: calcolaRR(rata, parseFloat(formFields.reddito)), // Calculate income-to-fee ratio
+          incomeFeePerc: (reddito && rrMethod) ? calcolaRR(rata, rrMethod, reddito, financialDebts) : null, // Calculate income-to-fee ratio
           isSelected: false,
         };
       });
 
     // Return the proposal for the product
-    return {
+    const result = {
       product,
       proposal: filteredInterests,
       requestValues: {
@@ -51,6 +56,9 @@ export const calculate = async (formFields: FormFields, province: ProvinceItemTy
       },
       province,
     } as PossibleResultType;
+
+    console.log("calculate result", result);
+    return result;
   });
 
   // Filter to include only products with valid proposals

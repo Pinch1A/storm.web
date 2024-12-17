@@ -1,10 +1,10 @@
-import { ProductType } from '@/types';
-import { createStorageUtil } from './storageUtil';
+// import { ProductType } from '@/types';
+// import storageUtil from './storageUtil';
 
-const productStorage = createStorageUtil<ProductType[]>('products');
+// const productStorage = storageUtil.createStorageUtil<ProductType[]>('products');
 
-export const {
-  saveData: saveProductList,
-  getData: getProductList,
-  clearData: clearProductList,
-} = productStorage;
+// export const {
+//   saveData: saveProductList,
+//   getData: getProductList,
+//   clearData: clearProductList,
+// } = productStorage;
