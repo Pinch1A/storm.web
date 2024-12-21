@@ -11,4 +11,35 @@
   fetchAndSaveData.ts
   calculate.ts
 /pages
+   api/
+     auth/
+      [...auth0]/
+         routes.ts
+      [...auth0].ts
+  province.tsx
+  calculator.tsx
+  login.tsx
   _app.tsx
+
+
+
+
+
+  /------------------/
+/components
+  /Layout.tsx
+  /NavBar.tsx
+  /ProtectedRoute.tsx
+  /OutdatedBanner.tsx
+  /ProvincePage.tsx
+  /CalculatorPage.tsx
+/context
+  /Providers.tsx
+/pages
+  /index.tsx
+  /province/index.tsx
+  /calculator/index.tsx
+  /login/index.tsx
+  /api/auth/[...auth0].ts
+/styles
+  /globals.css

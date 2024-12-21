@@ -33,8 +33,7 @@ export const calculate = async (formFields: FormFields, province: ProvinceItemTy
         const rata = calcolaRataMensile(parseFloat(formFields.amount), parseFloat(interest.rate), parseInt(formFields.years));
         const rrMethod = product.bank?.rr_method;
         const reddito = formFields.reddito;
-        const redditoMensile = reddito ? parseFloat(reddito.amount?.toString() ?? '0') / (reddito.type === 'Annual' ? 12 : 1) : 0;
-        const financialDebts = formFields.financialDebts || { amount: 0, type: 'Annual' };
+        const financialDebts = formFields.financialDebts || { amount: '0', type: 'Annual' };
 
         return {
           ...interest,
@@ -42,6 +41,7 @@ export const calculate = async (formFields: FormFields, province: ProvinceItemTy
           fee: rata,
           incomeFeePerc: (reddito && rrMethod) ? calcolaRR(rata, rrMethod, reddito, financialDebts) : null, // Calculate income-to-fee ratio
           isSelected: false,
+          sussistenza: product.bank?.sussistenza,
         };
       });
 

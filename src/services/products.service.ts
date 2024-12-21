@@ -2,7 +2,7 @@ import { ProductType } from '@/types';
 
 export const fetchProductsData = async (): Promise<ProductType[]> => {
   try {
-    const productResponse = await fetch('/api/products', {
+    const productResponse = await fetch('/api/data/products', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

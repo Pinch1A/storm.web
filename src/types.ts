@@ -45,7 +45,7 @@ export interface SussistenzaItemType {
 }
 
 export interface AmountAndType {
-  amount: string | number | null;
+  amount: string | null;
   type: 'Monthly' | 'Annual' | null;
 }
 
@@ -69,5 +69,8 @@ export interface PossibleResultType {
   proposal: (InterestItemType & SelectedResultType)[] | undefined;
   requestValues: FormFields;
   province: ProvinceItemType;
+  matchingSussistenza?: SussistenzaItemType | null;
+  hasRRIssues?: boolean;
+  hasGeneralIssues?: boolean;
 }
 

@@ -1,10 +1,9 @@
-// pages/api/interests.ts
 import { NextApiRequest, NextApiResponse } from 'next';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'GET') {
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/interests`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/zipcodes`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',

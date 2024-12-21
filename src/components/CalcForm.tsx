@@ -100,7 +100,7 @@ export default function CalcForm() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(handleFormSubmit)} // Directly pass handleSubmit
-        className="space-y-6"
+        className="space-y-2"
       >
         {/* Amount Field */}
         <FormField
@@ -111,7 +111,7 @@ export default function CalcForm() {
               <FormLabel className="text-neutral-400">Amount</FormLabel>
               <FormControl>
                 <Input
-                  className="bg-white text-neutral-400"
+                  className="!bg-white"
                   placeholder="Enter amount"
                   {...field}
                 />
@@ -130,7 +130,7 @@ export default function CalcForm() {
               <FormLabel className="text-neutral-400">Loan-to-Value (LTV)</FormLabel>
               <FormControl>
                 <Input
-                  className="bg-white text-neutral-400"
+                  className="bg-white "
                   placeholder="Enter LTV"
                   {...field}
                 />
@@ -149,7 +149,7 @@ export default function CalcForm() {
               <FormLabel className="text-neutral-400">Years</FormLabel>
               <FormControl>
                 <Input
-                  className="bg-white text-neutral-400"
+                  className="bg-white "
                   placeholder="Enter years"
                   {...field}
                 />
@@ -172,12 +172,12 @@ export default function CalcForm() {
                   type="number"
                   inputMode="numeric"
                   pattern="[0-9]*"
-                  value={field.value?.toString() || ""}
-                  className="bg-white text-neutral-400"
+                  value={field.value || ""}
+                  className="bg-white"
                   placeholder="Enter Reddito"
                 />
               </FormControl>
-              {renderCheckboxGroup(field.value?.toString(), "reddito.type")}
+              {renderCheckboxGroup(field.value, "reddito.type")}
             </FormItem>
           )}
         />
@@ -195,17 +195,17 @@ export default function CalcForm() {
                   type="number"
                   inputMode="numeric"
                   pattern="[0-9]*"
-                  value={field.value?.toString() || ""}
-                  className="bg-white text-neutral-400"
+                  value={field.value || ""}
+                  className="bg-white"
                   placeholder="Enter Financial Debts"
                 />
               </FormControl>
-              {renderCheckboxGroup(field.value?.toString(), "financialDebts.type")}
+              {renderCheckboxGroup(field.value, "financialDebts.type")}
             </FormItem>
           )}
         />
 
-        <Button type="submit" className="w-full">
+        <Button type="submit" className="w-full !mt-8">
           Calculate
         </Button>
       </form>

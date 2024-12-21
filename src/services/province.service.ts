@@ -3,7 +3,7 @@ import { ProvinceItemType } from '../types';
 
 export const fetchProvinceData = async (): Promise<ProvinceItemType[]> => {
   try {
-    const provinceResponse = await fetch('/api/province', {
+    const provinceResponse = await fetch('/api/data/province', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

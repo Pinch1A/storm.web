@@ -1,33 +1,29 @@
+// pages/login/index.tsx
+
 'use client';
 
-import { useRouter } from "next/navigation";
-import { StorageManager } from "@/utils/storage/dataManager";
-import { useState } from "react";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { useEffect } from 'react';
+import { useUser } from '@auth0/nextjs-auth0/client';
+import { useRouter } from 'next/router';
 
-export default function LoginPage() {
+const LoginPage = () => {
+  const { user, isLoading } = useUser();
   const router = useRouter();
-  const [username, setUsername] = useState("");
 
-  const handleLogin = async () => {
-    if (username) {
-      await StorageManager.user.save({ username });
-      router.push("/province");
+  useEffect(() => {
+    if (!isLoading && !user) {
+      router.push('/api/auth/login'); // Redirect to Auth0's hosted login
+    } else if (user) {
+      router.push('/'); // Redirect to home if already logged in
     }
-  };
+  }, [user, isLoading, router]);
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
-      <h1 className="text-2xl font-bold mb-4">Login</h1>
-      <Input
-        placeholder="Enter your username"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-      />
-      <Button onClick={handleLogin} className="mt-4">
-        Login
-      </Button>
+    <div className="flex items-center justify-center h-screen bg-gray-100">
+      {isLoading && <p>Loading...</p>}
+      {!isLoading && !user && <p>Redirecting to login...</p>}
     </div>
   );
-}
+};
+
+export default LoginPage;

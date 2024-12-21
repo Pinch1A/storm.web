@@ -1,8 +1,9 @@
 import { InterestItemType } from "@/types";
 
+
 export const fetchInterestsData = async (): Promise<InterestItemType[]> => {
   try {
-    const interestsResponse = await fetch('/api/interests', {
+    const interestsResponse = await fetch('/api/data/interests', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

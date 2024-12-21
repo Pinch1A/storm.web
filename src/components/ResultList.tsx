@@ -1,11 +1,13 @@
+"use client"
+
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { useResultsContext } from "@/context/ResultsContext";
 import { PossibleResultType } from "@/types";
 import cx from "classnames";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 
-export default function ResultsList({ results, sussiPersons }: { results: PossibleResultType[], sussiPersons: number }) {
-  const { selectedResults, setSelectedResults } = useResultsContext();
+export default function ResultsList({ sussiPersons }: { sussiPersons: number }) {
+  const { possibleResults, setPossibleResults, selectedResults, setSelectedResults } = useResultsContext();
 
   const toggleSelectedResult = (result: PossibleResultType) => {
     const isAlreadySelected = selectedResults.some(
@@ -22,25 +24,28 @@ export default function ResultsList({ results, sussiPersons }: { results: Possib
   const isSelected = (result: PossibleResultType) =>
     selectedResults.some((item: PossibleResultType) => item.product.id === result.product.id);
 
-  // Precompute sussistenza values for all results to avoid recalculating during each render
-  const computedResults = useMemo(() => {
-    return results.map((result) => {
-      const redditoMensile = result.requestValues.reddito?.amount ? parseFloat(result.requestValues.reddito.amount.toString()) / (result.requestValues.reddito.type === 'Annual' ? 12 : 1) : 0;
-      const financialDebtsMensile = result.requestValues.financialDebts?.amount ? parseFloat(result.requestValues.financialDebts.amount.toString()) / (result.requestValues.financialDebts.type === 'Annual' ? 12 : 1) : 0;
+  // // Precompute sussistenza values for all possibleResults to avoid recalculating during each render
+  // const computedResults = useMemo(() => {
+  //   const results = possibleResults.map((result) => {
+  //     const redditoMensile = result.requestValues.reddito?.amount ? parseFloat(result.requestValues.reddito.amount.toString()) / (result.requestValues.reddito.type === 'Annual' ? 12 : 1) : 0;
+  //     const financialDebtsMensile = result.requestValues.financialDebts?.amount ? parseFloat(result.requestValues.financialDebts.amount.toString()) / (result.requestValues.financialDebts.type === 'Annual' ? 12 : 1) : 0;
 
-      const hasRRIssues = result.proposal?.some((proposal) => proposal.incomeFeePerc >= result.product.rr_threshold);
-      const matchingSussistenza = result.product.bank?.sussistenza?.find(
-        (sussistenza) => sussistenza.persons === sussiPersons
-      );
-      const hasGeneralIssues = !!((redditoMensile - financialDebtsMensile - (result.proposal?.[0]?.fee ?? 0)) <= 0);
-      return { ...result, matchingSussistenza, hasRRIssues, hasGeneralIssues };
-    });
-  }, [results, sussiPersons]);
+  //     const hasRRIssues = result.proposal?.some((proposal) => proposal.incomeFeePerc >= result.product.rr_threshold);
+  //     const matchingSussistenza = result.product.bank?.sussistenza?.find(
+  //       (sussistenza) => sussistenza.persons === sussiPersons
+  //     );
+  //     const hasGeneralIssues = !!((redditoMensile - financialDebtsMensile - (result.proposal?.[0]?.fee ?? 0)) <= 0);
+  //     return { ...result, matchingSussistenza, hasRRIssues, hasGeneralIssues };
+  //   });
+  //   console.log("computedResults", results);
+  //   return results;
+  // }, [possibleResults, sussiPersons]);
 
-  console.log("computedResults", computedResults);
+
+  // console.log("computedResults", computedResults);
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-      {computedResults.map((result, index) => (
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 pb-12">
+      {possibleResults.map((result, index) => (
         <Card
           key={`${result.product.id}-${index}`}
           className={cx(
@@ -96,10 +101,10 @@ export default function ResultsList({ results, sussiPersons }: { results: Possib
               </div>
             ))}
           </CardContent>
-          <CardFooter className="flex m-2 p-3 flex-row items-center justify-between bg-gray-50 rounded-md">
+          {/* <CardFooter className="flex m-2 p-3 flex-row items-center justify-between bg-gray-50 rounded-md">
             <div className="text-gray-500">Sussistenza</div>
             <div className="text-gray-700">{result.matchingSussistenza?.value ?? "Non disponibile"}</div>
-          </CardFooter>
+          </CardFooter> */}
         </Card>
       ))}
     </div>

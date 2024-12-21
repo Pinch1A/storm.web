@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
   async rewrites() {
     return [
       {
-        source: '/api/:path*',
+        source: '/api/data/:path*',
         destination: 'https://be-storm-data.vercel.app/:path*', // Proxy to backend
       },
     ];

@@ -1,17 +1,17 @@
-import '../styles/globals.css'; // Your global styles
-import { AuthProvider } from '../context/AuthContext';
-import { Providers } from '../context/Providers'; // Combines AppProvider and ResultsProvider
+import '../styles/globals.css';
+import { Providers } from '../context/Providers';
 import type { AppProps } from "next/app";
 import Layout from '@/components/Layout';
+import { UserProvider } from "@auth0/nextjs-auth0/client";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <AuthProvider>
-      <Providers>
+    <Providers>
+      <UserProvider>
         <Layout>
           <Component {...pageProps} />
         </Layout>
-      </Providers>
-    </AuthProvider>
+      </UserProvider>
+    </Providers >
   );
 }
