@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import { useRouter } from 'next/router';
 import { Badge } from './ui/badge';
+import { signOut, signIn } from 'next-auth/react';
 
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -13,21 +14,20 @@ const NavBar = () => {
 
   const toggle = () => setIsOpen(!isOpen);
 
-  const handleLogin = () => {
-    router.push('/api/auth/login');
-  };
-
-  const handleLogout = () => {
-    router.push('/api/auth/logout');
+  const handleLogin = async () => {
+    await signIn("keycloak", {
+      realm: "master",
+      callbackUrl: `/login?realm=master`,
+    });
   };
 
   return (
     <nav className="bg-white shadow-md">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-4">
         <div className="flex justify-between h-16">
           {/* Left side */}
           <div className="flex">
-            <div className="flex-shrink-0 flex items-center">
+            <div className=" flex justify-between items-center">
               <Badge variant="outline" className="text-sm h-6 px-4 transform -rotate-12 ring-2 ring-red-500 ring-offset-2 text-white bg-red-500 shadow-md" color="red">
                 Beta
               </Badge>
@@ -88,7 +88,7 @@ const NavBar = () => {
                         Profile
                       </Link>
                       <button
-                        onClick={handleLogout}
+                        onClick={() => signOut()}
                         className="w-full text-left block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                       >
                         Log out
@@ -194,7 +194,7 @@ const NavBar = () => {
                   Profile
                 </Link>
                 <button
-                  onClick={handleLogout}
+                  onClick={() => signOut()}
                   className="block w-full text-left px-4 py-2 text-base font-medium text-gray-600 hover:bg-gray-100 hover:text-gray-800"
                 >
                   Log out

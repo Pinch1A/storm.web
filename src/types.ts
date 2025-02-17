@@ -7,11 +7,18 @@ export interface ProvinceItemType {
   size: SussistenzaSizeType | null;
 }
 
+export interface PolizzeItemType {
+  id: string;
+  name: string;
+  type: 'vita' | 'morte' | 'invalidita';
+}
+
 export interface BankType {
   id: string;
   name: string;
   rr_method: 'bello' | 'brutto';
   sussistenza?: SussistenzaItemType[];
+  polizze?: PolizzeItemType[];
 }
 
 export interface ProductType {

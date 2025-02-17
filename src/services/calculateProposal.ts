@@ -1,14 +1,14 @@
-import { getProductList } from "@/utils/productsStorage";
 import { InterestItemType, PossibleResultType, ProductType, ProvinceItemType } from "@/types";
 import { calcolaRataMensile } from "./calc/calcolaRata";
 import { calcolaRR } from "./calc/calcolaRR";
 import { FormFields } from "@/schemas/calcForm.schema";
+import storageUtil from "@/utils/storageUtil";
 
 export const calculate = async (formFields: FormFields, province: ProvinceItemType): Promise<PossibleResultType[]> => {
   // Get products from storage
   console.log('Calculate Proposal');
 
-  const products = await getProductList();
+  const products = await storageUtil.getData("productData");
 
   if (!products) {
     console.error("No products found in storage");
@@ -35,11 +35,11 @@ export const calculate = async (formFields: FormFields, province: ProvinceItemTy
         // Calculate the monthly fee
         const rata = calcolaRataMensile(parseFloat(formFields.amount), parseFloat(interest.rate), parseInt(formFields.years));
         const incomeFeePerc = formFields.reddito
-          ? calcolaRR(rata, formFields.reddito.amount)
+          ? calcolaRR(rata, formFields.reddito)
           : null; // Calculate income-to-fee ratio only if `reddito` is provided
 
         const financialDebtsEffect = formFields.financialDebts
-          ? calcolaRR(rata, formFields.financialDebts.amount)
+          ? calcolaRR(rata, formFields.financialDebts)
           : null; // Calculate the financial dependencies effect if available
 
         return {

@@ -1,28 +1,52 @@
-// pages/login/index.tsx
+// pages/[realm]/login.tsx
 
-'use client';
-
-import { useEffect } from 'react';
-import { useUser } from '@auth0/nextjs-auth0/client';
-import { useRouter } from 'next/router';
+import { useRouter } from "next/router";
+import { signIn } from "next-auth/react";
+import Head from "next/head";
 
 const LoginPage = () => {
-  const { user, isLoading } = useUser();
   const router = useRouter();
 
-  useEffect(() => {
-    if (!isLoading && !user) {
-      router.push('/api/auth/login'); // Redirect to Auth0's hosted login
-    } else if (user) {
-      router.push('/'); // Redirect to home if already logged in
-    }
-  }, [user, isLoading, router]);
+  // Optionally, if realm is missing, you might want to redirect or show an error.
+  // useEffect(() => {
+  //   if (!realm) {
+  //     // You could redirect to a default page or show a message.
+  //     console.warn("No realm found in URL. Please ensure the URL is in the format /[realm]/login");
+  //   }
+  // }, [realm]);
+
+  const handleSignIn = async (realm: string) => {
+    // if (!realm || typeof realm !== "string") {
+    //   alert("Realm is not provided in the URL");
+    //   return;
+    // }
+    // Redirect to /api/auth/signin?callbackUrl=/login?realm=... (or similar)
+    // Here we pass the realm in the query string so our API route can build the issuer dynamically.
+    console.log("handleSignIn", realm);
+    await signIn("keycloak", {
+      realm: realm,
+      callbackUrl: `/login?realm=master`,
+    });
+  };
 
   return (
-    <div className="flex items-center justify-center h-screen bg-gray-100">
-      {isLoading && <p>Loading...</p>}
-      {!isLoading && !user && <p>Redirecting to login...</p>}
-    </div>
+    <>
+      <Head>
+        <title>Login </title>
+      </Head>
+      <div className="min-h-screen flex items-center justify-center bg-gray-100">
+        <div className="max-w-md w-full bg-white p-8 rounded shadow">
+          <h1 className="text-3xl font-bold text-center mb-6">Sign In</h1>
+          <p className="mb-4 text-center">You are signing in for realm: <span className="font-semibold">master</span></p>
+          <button
+            onClick={() => handleSignIn("master")}
+            className="w-full bg-blue-600 text-white py-3 rounded hover:bg-blue-700 transition-colors"
+          >
+            Sign in with Keycloak
+          </button>
+        </div>
+      </div>
+    </>
   );
 };
 

@@ -4,7 +4,6 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/componen
 import { useResultsContext } from "@/context/ResultsContext";
 import { PossibleResultType } from "@/types";
 import cx from "classnames";
-import { useEffect, useMemo } from "react";
 
 export default function ResultsList({ sussiPersons }: { sussiPersons: number }) {
   const { possibleResults, setPossibleResults, selectedResults, setSelectedResults } = useResultsContext();

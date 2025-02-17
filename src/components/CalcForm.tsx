@@ -17,7 +17,7 @@ import { useAppContext } from "@/context/AppContext";
 import { useResultsContext } from "@/context/ResultsContext";
 import { FormFields, calcFormSchema } from "@/schemas/calcForm.schema"; // Import the schema used in AppContext
 import { useEffect } from "react";
-import { calculate } from "@/lib/calculate";
+import { calculate } from "@/services/calculateProposal";
 import { useRouter } from "next/navigation";
 import { PossibleResultType } from "@/types";
 
