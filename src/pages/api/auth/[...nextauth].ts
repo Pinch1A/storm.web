@@ -3,7 +3,6 @@
 import axios from "axios";
 import NextAuth from "next-auth";
 import KeycloakProvider from "next-auth/providers/keycloak";
-import type { NextApiRequest, NextApiResponse } from "next";
 
 export default NextAuth({
   providers: [
@@ -38,7 +37,6 @@ export default NextAuth({
 
           const userInfo = response.data;
           console.log("Fetched user info:", userInfo);
-
           // Merge user info into the session
           session.user = { ...session.user, ...userInfo };
         } catch (error) {
