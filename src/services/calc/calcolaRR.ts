@@ -1,7 +1,7 @@
 
 interface RedditoType {
-  amount: string;
-  type: 'annual' | 'monthly';
+  amount: string | null;
+  type: 'Monthly' | 'Annual' | null;
 }
 
 export function calcolaRR(rata: number, reddito?: RedditoType): number {
@@ -13,7 +13,7 @@ export function calcolaRR(rata: number, reddito?: RedditoType): number {
   }
 
 
-  const redditoValue = parseFloat(reddito?.amount || '0') / (reddito?.type === 'annual' ? 12 : 1);
+  const redditoValue = parseFloat(reddito?.amount || '0') / (reddito?.type === 'Annual' ? 12 : 1);
 
   console.log("rata", rata);
   console.log("redditoValue", redditoValue);
