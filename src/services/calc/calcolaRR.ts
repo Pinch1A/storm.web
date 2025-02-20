@@ -1,4 +1,8 @@
-import { RedditoType } from "../../types";
+
+interface RedditoType {
+  amount: string;
+  type: 'annual' | 'monthly';
+}
 
 export function calcolaRR(rata: number, reddito?: RedditoType): number {
 
