@@ -1,11 +1,7 @@
-// pages/[realm]/login.tsx
-
-import { useRouter } from "next/router";
 import { signIn } from "next-auth/react";
 import Head from "next/head";
 
 const LoginPage = () => {
-  const router = useRouter();
 
   // Optionally, if realm is missing, you might want to redirect or show an error.
   // useEffect(() => {

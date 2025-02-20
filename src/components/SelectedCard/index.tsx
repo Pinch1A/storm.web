@@ -9,10 +9,8 @@ import { CustomAccordion, CustomAccordionItem } from "@/components/SpecialAccord
 import { PossibleResultType } from "@/types"
 import cx from "classnames"
 import SussistenzaSection from "./SussistenzaSection"
-import PolizzeSection from "./PolizzeSection"
-import ExtraSection from "./ExtraSection"
-import { AlignRight } from "@phosphor-icons/react"
-import { Button } from "../ui/button"
+// import PolizzeSection from "./PolizzeSection"
+// import ExtraSection from "./ExtraSection"
 
 const SelectedItem = ({
   result,
@@ -27,9 +25,6 @@ const SelectedItem = ({
     // const results = possibleResults.map((result) => {
     const redditoMensile = result.requestValues.reddito?.amount ? parseFloat(result.requestValues.reddito.amount.toString()) / (result.requestValues.reddito.type === 'Annual' ? 12 : 1) : 0;
     const financialDebtsMensile = result.requestValues.financialDebts?.amount ? parseFloat(result.requestValues.financialDebts.amount.toString()) / (result.requestValues.financialDebts.type === 'Annual' ? 12 : 1) : 0;
-
-    console.log("proposal:", result.proposal?.[0]);
-    console.log("product:", result.product);
 
     const hasRRIssues = result.proposal?.some((proposal) => proposal.incomeFeePerc >= result.product.rr_threshold);
     const matchingSussistenza = result.product.bank?.sussistenza?.find(
@@ -82,7 +77,7 @@ const SelectedItem = ({
             </div>
             <div className="flex space-x-1">
               <div className="text-gray-500 text-right">R/R</div>
-              <div className="text-gray-700 text-right">{`${computedResult.proposal?.[0].incomeFeePerc?.toFixed(2)}%` ?? "N/A"}</div>
+              <div className="text-gray-700 text-right">{`${computedResult.proposal?.[0].incomeFeePerc ? computedResult.proposal?.[0].incomeFeePerc.toFixed(2) : "N/A"}%`}</div>
             </div>
           </div>
           <Separator />
@@ -100,19 +95,19 @@ const SelectedItem = ({
               </div>
               <div className="flex flex-row space-x-1 text-gray-700">
                 <Badge variant="outline" className="flex flex-row space-x-1 w-full justify-between">
-                  <div className="text-gray-500">hasRRIssues</div>
+                  <div className="text-gray-500">Rata / Reddito validazione</div>
                   <div className={cx("text-gray-700", computedResult.hasRRIssues ? "text-red-500" : "text-green-500")}>{result.hasRRIssues ? "Non soddisfatta" : "Soddisfatta"}</div>
                 </Badge>
               </div>
 
             </div>
           </div>
-          <CustomAccordionItem title="Polizze" value={'polizze'}>
+          {/* <CustomAccordionItem title="Polizze" value={'polizze'}>
             <PolizzeSection polizze={computedResult.polizze} sussiPersons={sussiPersons} />
           </CustomAccordionItem>
           <CustomAccordionItem title="Extra" value={'extra'}>
             <ExtraSection extras={computedResult.extras} />
-          </CustomAccordionItem>
+          </CustomAccordionItem> */}
           {/* <div className="mt-4 self-end opacity-0 group-hover:opacity-100 transition-opacity duration-300">
             <Button variant="outline" className="flex flex-row space-x-1" onClick={() => setShowPolizze(true)}>
               Vai al prossimo step <AlignRight className="w-4 h-4" />

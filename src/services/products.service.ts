@@ -1,4 +1,4 @@
-import { ProductType } from '@/types';
+import { InterestItemType, ProductType } from '@/types';
 
 export const fetchProductsData = async (): Promise<ProductType[]> => {
   try {
@@ -16,10 +16,10 @@ export const fetchProductsData = async (): Promise<ProductType[]> => {
     const products = await productResponse.json();
 
     // Format the data
-    const formattedProducts = products.map((product: any) => ({
+    const formattedProducts = products.map((product: ProductType) => ({
       ...product,
-      interests: product.interest
-        ? product.interest.map((interest: any) => ({
+      interests: product.interests
+        ? product.interests.map((interest: InterestItemType) => ({
           ...interest,
           years: interest.years, // Use years as it is returned by the backend
         }))

@@ -1,17 +1,36 @@
 import '../styles/globals.css';
 import { Providers } from '../context/Providers';
 import type { AppProps } from "next/app";
-import Layout from '@/components/Layout';
-import { UserProvider } from "@auth0/nextjs-auth0/client";
+import { SessionProvider, useSession } from "next-auth/react";
+import { UserProvider, useUser } from "../context/UserContext";
 
-export default function App({ Component, pageProps }: AppProps) {
+import Layout from '@/components/Layout';
+import { useEffect } from 'react';
+
+function SyncUserWithSession() {
+  const { data: session } = useSession();
+  const { setUser } = useUser();
+
+  useEffect(() => {
+    if (session?.user) {
+      setUser(session.user); // Sync session user with UserContext
+    }
+  }, [session, setUser]);
+
+  return null;
+}
+
+export default function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   return (
     <Providers>
-      <UserProvider>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
-      </UserProvider>
+      <SessionProvider session={session}>
+        <UserProvider>
+          <Layout>
+            <SyncUserWithSession />
+            <Component {...pageProps} />
+          </Layout>
+        </UserProvider>
+      </SessionProvider>
     </Providers >
   );
 }

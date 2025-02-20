@@ -1,3 +1,5 @@
+// eslint-disable-file @typescript-eslint/no-explicit-any
+
 import { fetchProvinceData } from "./province.service";
 import { fetchProductsData } from "./products.service";
 import { fetchSussistenzaData } from "./sussistenza.service";

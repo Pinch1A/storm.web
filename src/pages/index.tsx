@@ -1,32 +1,44 @@
-// pages/index.tsx
-
 import Head from 'next/head';
 import Link from 'next/link';
+import { useUser } from '@/context/UserContext';
+import { useRouter } from 'next/router';
 
 const HomePage = () => {
+  const { user, loading } = useUser();
+  const router = useRouter();
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!user) {
+    router.push('/login');
+  } else {
+    router.push('/province');
+  }
+
+  console.log("user", user);
+
   return (
     <>
       <Head>
-        <title>MyApp - Home</title>
-        <meta name="description" content="Welcome to MyApp!" />
+        <title>Storm.Credit - Home</title>
+        <meta name="description" content="Welcome to Storm.Credit" />
       </Head>
       <main className="flex flex-col items-center justify-center min-h-screen py-2 bg-gray-100">
-        <h1 className="text-4xl font-bold mb-4 text-blue-600">Welcome to MyApp!</h1>
-        <p className="text-lg mb-6 text-center text-gray-700">
-          This is the home page of your Next.js application integrated with Auth0 for authentication.
-        </p>
-        <div className="flex space-x-4">
-          <Link href="/province">
-            {/* <a className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"> */}
-            View Province
-            {/* </a> */}
-          </Link>
-          <Link href="/calculator">
-            {/* <a className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"> */}
-            Go to Calculator
-            {/* </a> */}
-          </Link>
-        </div>
+        <h1 className="text-4xl font-bold mb-4 text-blue-600">Welcome to Storm.Credit</h1>
+        {
+          user && (
+            <>
+              <p>
+                Welcome {user.name}
+              </p>
+              <Link href={`${user.org}/calculator`}>
+                Go to Calculator
+              </Link>
+            </>
+          )
+        }
       </main>
     </>
   );

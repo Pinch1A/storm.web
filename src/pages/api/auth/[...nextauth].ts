@@ -1,6 +1,3 @@
-// pages/api/auth/[...nextauth].ts
-
-import axios from "axios";
 import NextAuth from "next-auth";
 import KeycloakProvider from "next-auth/providers/keycloak";
 
@@ -9,45 +6,33 @@ export default NextAuth({
     KeycloakProvider({
       clientId: process.env.KEYCLOAK_CLIENT_ID || "",
       clientSecret: process.env.KEYCLOAK_CLIENT_SECRET || "",
-      issuer: `${process.env.KEYCLOAK_BASE_URL}/realms/master`,
+      issuer: `${process.env.NEXT_PUBLIC_KEYCLOAK_BASE_URL}/realms/master`,
     }),
   ],
   callbacks: {
     async jwt({ token, account, user }) {
-      // Store the access token from Keycloak in the token
+      // Store the access token from Keycloak in the JWT token
       if (account) {
         token.accessToken = account.access_token;
-        token.id = user?.id;
+        token.idToken = account.id_token;
       }
+
+      // Store user details if available
+      if (user) {
+        token.id = user.id;
+        token.email = user.email;
+        token.name = user.name;
+      }
+
       return token;
     },
 
     async session({ session, token }) {
-      // Ensure token.accessToken exists before making a request
-      if (token.accessToken) {
-        try {
-          const response = await axios.get(
-            `${process.env.KEYCLOAK_BASE_URL}/realms/master/protocol/openid-connect/userinfo`,
-            {
-              headers: {
-                Authorization: `Bearer ${token.accessToken}`,
-              },
-            }
-          );
-
-          const userInfo = response.data;
-          console.log("Fetched user info:", userInfo);
-          // Merge user info into the session
-          session.user = { ...session.user, ...userInfo };
-        } catch (error) {
-          console.error("Error fetching user info:", error);
-        }
-      }
-
-      return session;
+      // Include the accessToken in the session
+      return { ...session, ...token };
     },
 
-    async redirect({ url, baseUrl }) {
+    async redirect({ baseUrl }) {
       return baseUrl; // Redirect to home after login
     },
   },
