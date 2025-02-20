@@ -12,7 +12,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   try {
     // Extract Keycloak access token from the session
     const token = await getToken({ req, secret: AUTH_SECRET });
-
+    
     if (!token || !token.accessToken) {
       return res.status(401).json({ error: 'Unauthorized: No valid token' });
     }
