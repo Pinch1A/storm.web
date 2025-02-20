@@ -1,13 +1,9 @@
-// pages/profile.tsx
-
-import { withPageAuthRequired } from '@auth0/nextjs-auth0';
-import { useUser } from '@auth0/nextjs-auth0/client';
+import { useUser } from "@/context/UserContext";
 
 const Profile = () => {
-  const { user, error, isLoading } = useUser();
+  const { user, loading } = useUser();
 
-  if (isLoading) return <div className="p-4">Loading...</div>;
-  if (error) return <div className="p-4">Error: {error.message}</div>;
+  if (loading) return <div className="p-4">Loading...</div>;
 
   return (
     <div className="max-w-2xl mx-auto p-4">
@@ -27,4 +23,4 @@ const Profile = () => {
   );
 };
 
-export default withPageAuthRequired(Profile);
+export default Profile;
