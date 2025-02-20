@@ -30,17 +30,15 @@ const LoginPage = () => {
       <Head>
         <title>Login </title>
       </Head>
-      <div className="min-h-screen flex items-center justify-center bg-gray-100">
-        <div className="max-w-md w-full bg-white p-8 rounded shadow">
-          <h1 className="text-3xl font-bold text-center mb-6">Sign In</h1>
-          <p className="mb-4 text-center">You are signing in for realm: <span className="font-semibold">master</span></p>
-          <button
-            onClick={() => handleSignIn("master")}
-            className="w-full bg-blue-600 text-white py-3 rounded hover:bg-blue-700 transition-colors"
-          >
-            Sign in with Keycloak
-          </button>
-        </div>
+      <div className="flex flex-col items-center justify-center">
+        <h1 className="text-3xl font-bold text-center mb-6">Accesso Necessario</h1>
+        <p className="mb-4 text-center">Per accedere, devi essere registrato come cliente di Storm.Credit</p>
+        <button
+          onClick={() => handleSignIn("master")}
+          className="px-4 bg-blue-600 text-white py-3 rounded hover:bg-blue-700 transition-colors"
+        >
+          Accedi
+        </button>
       </div>
     </>
   );

@@ -34,8 +34,3 @@ export function middleware(request: NextRequest) {
 export const config = {
   matcher: ["/:realm/login", "/api/:path*"],
 };
-
-// Set CORS headers for other API routes
-// response.headers.set('Access-Control-Allow-Origin', 'http://localhost:3000'); // Replace with your frontend origin
-// response.headers.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-// response.headers.set('Access-Control-Allow-Headers', 'Content-Type, x-api-key');

@@ -5,11 +5,12 @@ import { OutdatedBanner } from "@/components/OutdatedBanner";
 import storageUtil from "@/utils/storageUtil";
 import { fetchAndSaveData } from "@/services/fetchAndSaveData";
 import Navbar from "@/components/Navbar";
-
+import { useUser } from "@/context/UserContext";
 const Layout: FC<{ children: ReactNode }> = ({ children }) => {
   const APP_NAME = "Storm.Credit";
   const [isLoading, setIsLoading] = useState(false);
   const [isDataStale, setIsDataStale] = useState(false);
+  const { user } = useUser();
 
   useEffect(() => {
     // Check if data timestamp is stale (1 hour)
@@ -37,7 +38,7 @@ const Layout: FC<{ children: ReactNode }> = ({ children }) => {
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
-      {isDataStale && (
+      {isDataStale && user && (
         <OutdatedBanner
           onUpdate={handleUpdateData}
           isLoading={isLoading}
