@@ -1,0 +1,92 @@
+{
+  "$schema": "https://biomejs.dev/schemas/1.8.3/schema.json",
+  "formatter": {
+    "enabled": true,
+    "formatWithErrors": false,
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineEnding": "lf",
+    "lineWidth": 120,
+    "attributePosition": "auto"
+  },
+  "organizeImports": { "enabled": false },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true,
+      "a11y": {
+        "useKeyWithClickEvents": "off"
+      },
+      "style": {
+        "noNamespace": "error",
+        "useLiteralEnumMembers": "off",
+        "useSelfClosingElements": "off",
+        "useTemplate": "off",
+        "noNonNullAssertion": "off",
+        "noUselessElse": "warn",
+        "useImportType": "info"
+      },
+      "correctness": {
+        "noUndeclaredVariables": "error",
+        "noUnusedPrivateClassMembers": "error",
+        "noUnusedImports": "warn",
+        "noNewSymbol": "off",
+        "noUnusedVariables": "warn",
+        "useArrayLiterals": "off",
+        "useHookAtTopLevel": "error"
+      },
+      "suspicious": {
+        "noEmptyBlockStatements": "warn",
+        "noConsoleLog": "off",
+        "noSkippedTests": "warn",
+        "noArrayIndexKey": "off"
+      },
+      "nursery": {
+        "noRestrictedImports": {
+          "level": "warn",
+          "options": {
+            "paths": {
+              "lodash": "import lodash/fp instead"
+            }
+          }
+        }
+      }
+    },
+    "ignore": ["./jest.config.js", "./jest.setup.js", "./playwright.config.ts", "./src/vendor/**/*"]
+  },
+  "javascript": {
+    "globals": [
+      "UtcDate",
+      "TermlyCookieWhitelist",
+      "TermlyApi",
+      "clarity",
+      "Decimal",
+      "Label",
+      "Plotly"
+    ],
+    "formatter": {
+      "jsxQuoteStyle": "double",
+      "quoteProperties": "asNeeded",
+      "trailingCommas": "es5",
+      "semicolons": "always",
+      "arrowParentheses": "always",
+      "bracketSpacing": true,
+      "bracketSameLine": false,
+      "quoteStyle": "single",
+      "attributePosition": "auto"
+    }
+  },
+  "css": {
+    "parser": {
+      "cssModules": true
+    },
+    "formatter": {
+      "enabled": true
+    }
+  },
+  "overrides": [
+    {
+      "include": ["src/**/*.{ts,tsx}"]
+    }
+  ]
+}

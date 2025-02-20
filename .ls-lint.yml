@@ -1,0 +1,17 @@
+ls:
+  src:
+    .dir: pascalcase | camelCase | regex:G.*
+    .props.ts: pascalcase | regex:G.*
+    .types.ts: pascalcase | regex:G.*
+    .constants.ts: pascalcase | camelCase
+    .constants.tsx: pascalcase | camelCase
+    .test.tsx: pascalcase
+    .validation.tsx: pascalcase | camelCase
+    .data.tsx: pascalcase | camelCase
+    .utils.tsx: pascalcase | camelCase | regex:G.*
+    .tsx: pascalcase | regex:index | regex:G.*
+    .css: pascalcase | camelCase | regex:G.*
+    .module.css: pascalcase | camelCase | regex:G.*
+
+ignore:
+  - src/global.d.ts

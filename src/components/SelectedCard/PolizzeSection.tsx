@@ -2,8 +2,13 @@
 "use client"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const PolizzeSection = ({ polizze }: { polizze: any, }) => {
+interface PolizzaItemType {
+  name: string;
+  description: string;
+  price: number;
+}
+
+const PolizzeSection = ({ polizze }: { polizze: PolizzaItemType[], }) => {
 
   const mockPolizze = [
     {
@@ -12,8 +17,7 @@ const PolizzeSection = ({ polizze }: { polizze: any, }) => {
       price: 100
     }
   ]
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const polizzeList = (polizze.length > 0 ? polizze : mockPolizze).map((polizza: any) => ({
+  const polizzeList = (polizze.length > 0 ? polizze : mockPolizze).map((polizza: PolizzaItemType) => ({
     name: polizza.name,
     description: polizza.description,
     price: polizza.price
@@ -21,13 +25,13 @@ const PolizzeSection = ({ polizze }: { polizze: any, }) => {
 
   return (
     <div className="space-y-4">
-      {polizzeList.map((polizza: any) => (
+      {polizzeList.map((polizza: PolizzaItemType) => (
         <Card key={polizza.name}>
           <CardHeader>
             <CardTitle>{polizza.name}</CardTitle>
           </CardHeader>
           <CardContent>
-            <p>Dettagli sulla polizza</p>
+            <p>{polizza.description}</p>
             <p>Prezzo: {polizza.price}</p>
           </CardContent>
         </Card>

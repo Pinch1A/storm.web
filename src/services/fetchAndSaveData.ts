@@ -4,11 +4,15 @@ import { fetchProvinceData } from "./province.service";
 import { fetchProductsData } from "./products.service";
 import { fetchSussistenzaData } from "./sussistenza.service";
 import storageUtil from "@/utils/storageUtil";
+import { ProductType, ProvinceItemType, SussistenzaSizeType } from "@/types";
 
-const serviceMap: Record<string, () => Promise<any>> = {
+// Define a specific type for the fetched data
+type FetchedData = ProductType[] | ProvinceItemType[] | SussistenzaSizeType[]; // Replace with actual types
+
+const serviceMap: Record<string, () => Promise<FetchedData>> = {
   product: fetchProductsData,
   province: fetchProvinceData,
-  sussistenza: fetchSussistenzaData,
+  sussistenza: fetchSussistenzaData as unknown as () => Promise<FetchedData>,
 };
 
 /**
@@ -16,7 +20,7 @@ const serviceMap: Record<string, () => Promise<any>> = {
  * Province also updates the main timestamp.
  * @param dataType - 'product' | 'province' | 'sussistenza'
  */
-export const fetchAndSaveData = async (dataType: string): Promise<any> => {
+export const fetchAndSaveData = async (dataType: string): Promise<FetchedData | undefined> => {
   try {
     const fetchService = serviceMap[dataType];
     if (!fetchService) throw new Error(`No service found for ${dataType}`);

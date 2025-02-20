@@ -14,7 +14,7 @@ interface SessionUser {
   email?: string;
   name?: string;
   accessToken?: string;
-  [key: string]: any; // Allow additional properties
+  [key: string]: unknown; // Allow additional properties
 }
 
 interface CustomSession extends Session {

@@ -1,6 +1,6 @@
 // app/province/page.tsx
 
-import ProtectedRoute from '@/components/ProtectedRoute';
+// import ProtectedRoute from '@/components/ProtectedRoute';
 import ProvincePage from '@/components/ProvincePage';
 
 const ProtectedProvincePage = () => {
