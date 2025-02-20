@@ -113,7 +113,7 @@ const CalculatorPage: React.FC = () => {
           </div>
           {(possibleResults.length > 0 && !showSelected) && (
             <div className="flex flex-col space-y-4">
-              <ResultsList sussiPersons={sussiPersons} />
+              <ResultsList />
               {selectedResults.length >= 1 &&
                 <div className="flex z-10 absolute bottom-12 w-[66.7%] p-2 right-0 bg-neutral-50/15 flex-row space-x-2 items-center justify-center">
                   <div className="flex flex-row space-x-2 items-center justify-center">
