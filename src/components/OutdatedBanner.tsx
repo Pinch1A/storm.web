@@ -6,11 +6,10 @@ import type { FC } from "react";
 
 interface OutdatedBannerProps {
   onUpdate: () => void;
-  // onIgnore: () => void;
   isLoading: boolean;
 }
 
-export const OutdatedBanner: FC<OutdatedBannerProps> = ({ onUpdate, onIgnore, isLoading }) => {
+export const OutdatedBanner: FC<OutdatedBannerProps> = ({ onUpdate, isLoading }) => {
   return (
     <div className="fixed top-0 left-0 w-full bg-yellow-300 text-black py-3 px-6 shadow-lg z-50">
       <div className="flex items-center justify-between">

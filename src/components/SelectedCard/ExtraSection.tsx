@@ -5,13 +5,13 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 const ExtraContent = ({
   extras = []
 }: {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   extras: any;
 }) => {
-  // Implementa qui il contenuto extra
   return (
     <div className="space-y-4">
       {extras.map((extra: any) => (
-        <Card>
+        <Card key={extra.name}>
           <CardHeader>
             <CardTitle>{extra.name}</CardTitle>
           </CardHeader>

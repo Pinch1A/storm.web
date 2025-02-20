@@ -1,12 +1,12 @@
 "use client"
 
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useResultsContext } from "@/context/ResultsContext";
 import { PossibleResultType } from "@/types";
 import cx from "classnames";
 
-export default function ResultsList({ sussiPersons }: { sussiPersons: number }) {
-  const { possibleResults, setPossibleResults, selectedResults, setSelectedResults } = useResultsContext();
+export default function ResultsList() {
+  const { possibleResults, selectedResults, setSelectedResults } = useResultsContext();
 
   const toggleSelectedResult = (result: PossibleResultType) => {
     const isAlreadySelected = selectedResults.some(
@@ -60,7 +60,7 @@ export default function ResultsList({ sussiPersons }: { sussiPersons: number }) 
             <CardTitle className="text-lg font-bold h-5">{result.product.name}</CardTitle>
             <div className="flex flex-row space-x-1 items-center self-end">
               {result.hasGeneralIssues && <div className="text-white bg-red-500 text-xs border border-red-500 rounded-md p-1">Problema !</div>}
-              {result.hasRRIssues && <div className="text-white bg-red-500 text-xs border border-red-500 rounded-md p-1">R/R</div>}
+              {result.hasRRIssues && <div className="text-white bg-red-500 text-xs border border-red-500 rounded-md p-1">Rata / Reddito validazione </div>}
             </div>
           </CardHeader>
           <CardContent className="p-3">
@@ -95,7 +95,7 @@ export default function ResultsList({ sussiPersons }: { sussiPersons: number }) 
                 </div>
                 <div className="flex flex-col">
                   <div className="text-gray-500 text-right">R/R</div>
-                  <div className="text-gray-700 text-right">{`${proposal.incomeFeePerc?.toFixed(2)}%` ?? "N/A"}</div>
+                  <div className="text-gray-700 text-right">{`${proposal.incomeFeePerc ? proposal.incomeFeePerc.toFixed(2) : "N/A"}%`}</div>
                 </div>
               </div>
             ))}

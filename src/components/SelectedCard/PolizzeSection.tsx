@@ -2,7 +2,8 @@
 "use client"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
-const PolizzeSection = ({ polizze, sussiPersons }: { polizze: any, sussiPersons: number }) => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const PolizzeSection = ({ polizze }: { polizze: any, }) => {
 
   const mockPolizze = [
     {
@@ -11,6 +12,7 @@ const PolizzeSection = ({ polizze, sussiPersons }: { polizze: any, sussiPersons:
       price: 100
     }
   ]
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const polizzeList = (polizze.length > 0 ? polizze : mockPolizze).map((polizza: any) => ({
     name: polizza.name,
     description: polizza.description,

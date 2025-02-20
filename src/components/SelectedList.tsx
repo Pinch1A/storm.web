@@ -1,10 +1,10 @@
 "use client"
 
-import { CustomAccordion, CustomAccordionItem } from "@/components/SpecialAccordion"
-import { PossibleResultType } from "@/types";
-import { Card, CardTitle, CardHeader, CardContent, CardDescription } from "./ui/card";
-import { Badge } from "./ui/badge";
-import { Separator } from "./ui/separator";
+// import { CustomAccordion, CustomAccordionItem } from "@/components/SpecialAccordion"
+// import { PossibleResultType } from "@/types";
+// import { Card, CardTitle, CardHeader, CardContent, CardDescription } from "./ui/card";
+// import { Badge } from "./ui/badge";
+// import { Separator } from "./ui/separator";
 import { useResultsContext } from "@/context/ResultsContext";
 import cx from "classnames";
 import {
@@ -12,26 +12,26 @@ import {
   CarouselApi,
   CarouselContent,
   CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
+  // CarouselNext,
+  // CarouselPrevious,
 } from "@/components/ui/carousel"
 import SelectedItem from "@/components/SelectedCard"
 import { useEffect, useState } from "react";
 
 
-const ItemWrapper = ({ selectedResults, sussiPersons }: { selectedResults: PossibleResultType[], sussiPersons: number }) => {
-  return (
-    selectedResults.map((result, index) => (
-      <CarouselItem key={`${result.product.name}-${index}`} className="basis-full">
-        <SelectedItem
-          key={`${result.product.name}-${index}`}
-          result={result}
-          sussiPersons={sussiPersons}
-        />
-      </CarouselItem>
-    ))
-  )
-}
+// const ItemWrapper = ({ selectedResults, sussiPersons }: { selectedResults: PossibleResultType[], sussiPersons: number }) => {
+//   return (
+//     selectedResults.map((result, index) => (
+//       <CarouselItem key={`${result.product.name}-${index}`} className="basis-full">
+//         <SelectedItem
+//           key={`${result.product.name}-${index}`}
+//           result={result}
+//           sussiPersons={sussiPersons}
+//         />
+//       </CarouselItem>
+//     ))
+//   )
+// }
 
 export const SelectedList = ({
   sussiPersons,

@@ -7,8 +7,6 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion"
 import { ReactNode } from 'react';
-import { ArrowLineDown } from "@phosphor-icons/react";
-
 interface CustomAccordionProps {
   children: ReactNode;
 }

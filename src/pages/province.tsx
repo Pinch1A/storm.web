@@ -5,9 +5,9 @@ import ProvincePage from '@/components/ProvincePage';
 
 const ProtectedProvincePage = () => {
   return (
-    <ProtectedRoute>
-      <ProvincePage />
-    </ProtectedRoute>
+    // <ProtectedRoute>
+    <ProvincePage />
+    // </ProtectedRoute>
   );
 };
 

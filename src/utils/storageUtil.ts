@@ -4,7 +4,7 @@ const storageUtil = {
     return data ? JSON.parse(data) : null;
   },
 
-  setData: (key: string, value: any) => {
+  setData: (key: string, value: unknown) => {
     localStorage.setItem(key, JSON.stringify(value));
   },
 

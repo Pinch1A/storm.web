@@ -23,6 +23,7 @@ const Layout: FC<{ children: ReactNode }> = ({ children }) => {
 
   const handleUpdateData = async () => {
     // Refetch province as it's the main data
+    setIsLoading(true);
     await fetchAndSaveData("province");
 
     // Fetch other dependent data
@@ -30,6 +31,7 @@ const Layout: FC<{ children: ReactNode }> = ({ children }) => {
     await fetchAndSaveData("sussistenza");
 
     setIsDataStale(false);
+    setIsLoading(false);
   };
 
   return (

@@ -1,5 +1,5 @@
 import React, { createContext, useState, useContext, ReactNode } from "react";
-import { ProvinceItemType, FormFields, PossibleResultType } from "@/types";
+import { ProvinceItemType, FormFields } from "@/types";
 
 interface AppContextType {
   postalCode: ProvinceItemType | null;
@@ -7,6 +7,7 @@ interface AppContextType {
   formData: FormFields;
   setFormData: (data: FormFields) => void;
   clearAppData: () => void;
+  isLoading: boolean;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -21,6 +22,8 @@ export const useAppContext = () => {
 
 export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [postalCode, setPostalCode] = useState<ProvinceItemType | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+
   const [formData, setFormData] = useState<FormFields>({
     amount: "",
     ltv: "",
@@ -30,6 +33,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   });
 
   const clearAppData = () => {
+    setIsLoading(true);
     setPostalCode(null);
     setFormData({
       amount: "",
@@ -38,6 +42,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
       reddito: { amount: "", type: "Monthly" },
       financialDebts: { amount: "", type: "Monthly" },
     });
+    setIsLoading(false);
   };
 
   return (
@@ -47,6 +52,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
       formData,
       setFormData,
       clearAppData,
+      isLoading,
     }}>
       {children}
     </AppContext.Provider>

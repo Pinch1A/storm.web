@@ -2,15 +2,13 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { useUser } from '@auth0/nextjs-auth0/client';
-import { useRouter } from 'next/router';
 import { Badge } from './ui/badge';
 import { signOut, signIn } from 'next-auth/react';
+import { useUser } from '@/context/UserContext';
 
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { user, isLoading } = useUser();
-  const router = useRouter();
+  const { user, loading } = useUser();
 
   const toggle = () => setIsOpen(!isOpen);
 
@@ -35,29 +33,10 @@ const NavBar = () => {
                 Storm.Credit
               </Link>
             </div>
-            <div className="hidden sm:-my-px sm:ml-6 sm:flex sm:space-x-8 items-center">
-
-              {/* {user && (
-                <>
-                  <Link
-                    href="/province"
-                    className="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium text-gray-500 hover:border-blue-500 hover:text-gray-700"
-                  >
-                    Province
-                  </Link>
-                  <Link
-                    href="/calculator"
-                    className="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium text-gray-500 hover:border-blue-500 hover:text-gray-700"
-                  >
-                    Calculator
-                  </Link>
-                </>
-              )} */}
-            </div>
           </div>
           {/* Right side */}
           <div className="flex items-center">
-            {!isLoading && !user && (
+            {!loading && !user && (
               <button
                 onClick={handleLogin}
                 className="text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 px-3 py-2 rounded-md"
@@ -65,17 +44,25 @@ const NavBar = () => {
                 Log in
               </button>
             )}
-            {!isLoading && user && (
+            {!loading && user && (
               <div className="ml-4 relative">
                 <button
                   onClick={toggle}
                   className="flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300"
                 >
-                  <img
-                    className="h-8 w-8 rounded-full"
-                    src={user.picture}
-                    alt={user.name}
-                  />
+                  {user.picture ? (
+                    <img
+                      className="h-8 w-8 rounded-full"
+                      src={user.picture}
+                      alt={user.name}
+                    />
+                  ) : (
+                    <div className="h-8 w-8 rounded-full bg-gray-200 flex items-center justify-center">
+                      <span className="text-gray-400 text-sm">
+                        {user.name?.charAt(0) || 'U'}
+                      </span>
+                    </div>
+                  )}
                 </button>
                 {/* Dropdown menu */}
                 {isOpen && (
@@ -164,7 +151,7 @@ const NavBar = () => {
             )}
           </div>
           <div className="pt-4 pb-3 border-t border-gray-200">
-            {!isLoading && !user && (
+            {!loading && !user && (
               <div className="px-4">
                 <button
                   onClick={handleLogin}
@@ -174,7 +161,7 @@ const NavBar = () => {
                 </button>
               </div>
             )}
-            {!isLoading && user && (
+            {!loading && user && (
               <div className="flex items-center px-4">
                 <div className="flex-shrink-0">
                   <img className="h-10 w-10 rounded-full" src={user.picture} alt={user.name} />

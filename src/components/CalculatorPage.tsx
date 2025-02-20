@@ -17,11 +17,11 @@ const CalculatorPage: React.FC = () => {
   const {
     postalCode,
     setPostalCode,
+    isLoading
   } = useAppContext();
 
   const { possibleResults, selectedResults, setPossibleResults, setSelectedResults } = useResultsContext();
 
-  const [isLoading, setIsLoading] = useState(false); // For checking data freshness
   const [showSelected, setShowSelected] = useState(false);
   const [sussiPersons, setSussiPersons] = useState<number>(1);
 
@@ -38,7 +38,7 @@ const CalculatorPage: React.FC = () => {
     if (!postalCode && !isLoading) {
       router.back();
     }
-  }, [postalCode, isLoading]);
+  }, [postalCode, isLoading, router]);
 
   if (isLoading) {
     return (

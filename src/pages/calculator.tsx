@@ -3,9 +3,9 @@ import CalculatorPage from '@/components/CalculatorPage';
 
 const ProtectedCalculatorPage = () => {
   return (
-    <ProtectedRoute>
+    // <ProtectedRoute>
       <CalculatorPage />
-    </ProtectedRoute>
+    // </ProtectedRoute>
   );
 };
 

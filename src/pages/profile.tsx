@@ -15,8 +15,8 @@ const Profile = () => {
       {user && (
         <div className="bg-white shadow-md rounded p-6">
           <img
-            src={user.picture}
-            alt={user.name}
+            src={user.picture ?? ""}
+            alt={user.name ?? ""}
             className="h-24 w-24 rounded-full mx-auto"
           />
           <h2 className="text-xl font-semibold text-center mt-4">{user.name}</h2>
