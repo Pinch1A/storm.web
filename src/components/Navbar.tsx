@@ -53,8 +53,8 @@ const NavBar = () => {
                   {user.picture ? (
                     <img
                       className="h-8 w-8 rounded-full"
-                      src={user.picture}
-                      alt={user.name}
+                      src={(user.picture ?? '') as string}
+                      alt={(user.name ?? '') as string}
                     />
                   ) : (
                     <div className="h-8 w-8 rounded-full bg-gray-200 flex items-center justify-center">
@@ -164,7 +164,7 @@ const NavBar = () => {
             {!loading && user && (
               <div className="flex items-center px-4">
                 <div className="flex-shrink-0">
-                  <img className="h-10 w-10 rounded-full" src={user.picture} alt={user.name} />
+                  <img className="h-10 w-10 rounded-full" src={(user.picture ?? '') as string} alt={(user.name ?? '') as string} />
                 </div>
                 <div className="ml-3">
                   <div className="text-base font-medium text-gray-800">{user.name}</div>
