@@ -21,8 +21,9 @@ const ProvincePage: React.FC = () => {
       const provinces = await fetchAndSaveData("province");
       await fetchAndSaveData("product");
       await fetchAndSaveData("sussistenza");
-
-      setProvinceData(provinces);
+      if (provinces) {
+        setProvinceData(provinces as ProvinceItemType[]);
+      }
       setLoading(false);
     };
 
