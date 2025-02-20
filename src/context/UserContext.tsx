@@ -10,10 +10,10 @@ interface UserContextType {
 }
 
 interface SessionUser {
-  id?: string;
-  email?: string;
-  name?: string;
-  accessToken?: string;
+  id?: string | null;
+  email?: string | null;
+  name?: string | null;
+  accessToken?: string | null;
   [key: string]: unknown; // Allow additional properties
 }
 

@@ -6,7 +6,7 @@ import { UserProvider, useUser } from "../context/UserContext";
 
 import Layout from '@/components/Layout';
 import { useEffect } from 'react';
-
+import { User } from 'next-auth';
 function SyncUserWithSession() {
   const { data: session } = useSession();
   const { setUser } = useUser();
