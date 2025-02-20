@@ -1,5 +1,5 @@
 import { InterestItemType, ProductType } from '@/types';
-
+import { isNil } from 'lodash/fp';
 export const fetchProductsData = async (): Promise<ProductType[]> => {
   try {
     const productResponse = await fetch('/api/data/products', {
@@ -15,11 +15,13 @@ export const fetchProductsData = async (): Promise<ProductType[]> => {
 
     const products = await productResponse.json();
 
+    const filteredProducts = products.filter((product: ProductType) => product.interest && product.interest?.some(interest => !isNil(interest)));
+    console.log("products:", filteredProducts);
     // Format the data
-    const formattedProducts = products.map((product: ProductType) => ({
+    const formattedProducts = filteredProducts.map((product: ProductType) => ({
       ...product,
-      interests: product.interests
-        ? product.interests.map((interest: InterestItemType) => ({
+      interest: product.interest
+        ? product.interest.map((interest: InterestItemType) => ({
           ...interest,
           years: interest.years, // Use years as it is returned by the backend
         }))

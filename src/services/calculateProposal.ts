@@ -3,12 +3,15 @@ import { calcolaRataMensile } from "./calc/calcolaRata";
 import { calcolaRR } from "./calc/calcolaRR";
 import { FormFields } from "@/schemas/calcForm.schema";
 import storageUtil from "@/utils/storageUtil";
+import { isNil } from "lodash/fp";
 
 export const calculate = async (formFields: FormFields, province: ProvinceItemType): Promise<PossibleResultType[]> => {
   // Get products from storage
   console.log('Calculate Proposal');
 
-  const products = await storageUtil.getData("productData");
+  const products =
+    await storageUtil.getData("productData")
+      .filter((product: ProductType) => product.interest && product.interest?.some(interest => !isNil(interest)));
 
   if (!products) {
     console.error("No products found in storage");
@@ -17,10 +20,11 @@ export const calculate = async (formFields: FormFields, province: ProvinceItemTy
 
   // Process each product to filter interests based on LTV and years
   const results: PossibleResultType[] = products.map((product: ProductType) => {
-    const filteredInterests = product.interests
+    console.log("product:", product);
+    const filteredInterests = product.interest
       ?.filter((interest: InterestItemType) => {
         // Parse the LTV range (e.g., "10%-20%")
-        const [minLTV, maxLTV] = interest.ltvRange.split('-').map((value) => parseFloat(value.replace('%', '')));
+        const [minLTV, maxLTV] = interest.ltvrange.split('-').map((value) => parseFloat(value.replace('%', '')));
 
         // Parse the years range (e.g., "0-5")
         const [minYears, maxYears] = interest.years.split('-').map((value) => parseInt(value));

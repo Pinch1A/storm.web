@@ -1,6 +1,6 @@
 import axios from "axios";
 import { createContext, useContext, useEffect, useState } from "react";
-import { useSession } from "next-auth/react";
+import { useSession, signIn } from "next-auth/react";
 import { Session } from "next-auth";
 
 interface UserContextType {
@@ -32,13 +32,11 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
 
   // Fetch additional user info from Keycloak's userinfo endpoint
   const fetchAdditionalUserInfo = async (accessToken: string) => {
-    console.log("Fetching additional user info from:", accessToken);
     const EXTRA_USER_INFO_URL = `${process.env.NEXT_PUBLIC_KEYCLOAK_BASE_URL}/realms/master/protocol/openid-connect/userinfo`;
-    console.log("Fetching additional user info from:", EXTRA_USER_INFO_URL);
 
     try {
       const response = await axios.get(EXTRA_USER_INFO_URL, {
-        headers: { Authorization: `Bearer ${accessToken}` }
+        headers: { Authorization: `Bearer ${accessToken}` },
       });
 
       console.log("Fetched user info from Keycloak:", response.data);
@@ -49,14 +47,31 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
+  // Check if the session has expired
+  const isTokenExpired = (token: string) => {
+    try {
+      const tokenPayload = JSON.parse(atob(token.split(".")[1]));
+      const expiry = tokenPayload.exp * 1000; // Convert to milliseconds
+      return Date.now() >= expiry;
+    } catch (error) {
+      console.error("Error parsing token:", error);
+      return true; // Treat any parsing errors as an expired token
+    }
+  };
+
   useEffect(() => {
     const loadUserInfo = async () => {
       if (status === "loading") return; // Wait until session is fully loaded
 
       if (session?.user && session.accessToken) {
-        setLoading(true);
+        // Check if token has expired
+        if (isTokenExpired(session.accessToken)) {
+          console.warn("Session expired, redirecting to login.");
+          signIn(); // Redirect to login
+          return;
+        }
 
-        console.log("Fetching additional user info from:", session.accessToken);
+        setLoading(true);
         try {
           const additionalUserInfo = await fetchAdditionalUserInfo(session.accessToken);
           if (additionalUserInfo) {

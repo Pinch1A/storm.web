@@ -14,10 +14,10 @@ export const calculate = async (formFields: FormFields, province: ProvinceItemTy
 
   // Process each product to filter interests based on LTV and years
   const results: PossibleResultType[] = products.map((product: ProductType) => {
-    const filteredInterests = product.interests
+    const filteredInterests = product.interest
       ?.filter((interest: InterestItemType) => {
         // Parse the LTV range (e.g., "10%-20%")
-        const [minLTV, maxLTV] = interest.ltvRange.split('-').map((value) => parseFloat(value.replace('%', '')));
+        const [minLTV, maxLTV] = interest.ltvrange.split('-').map((value) => parseFloat(value.replace('%', '')));
 
         // Parse the years range (e.g., "0-5")
         const [minYears, maxYears] = interest.years.split('-').map((value) => parseInt(value));

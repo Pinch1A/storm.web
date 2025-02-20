@@ -7,6 +7,7 @@ export default NextAuth({
       clientId: process.env.NEXT_PUBLIC_KEYCLOAK_CLIENT_ID || '',
       clientSecret: process.env.NEXT_PUBLIC_KEYCLOAK_CLIENT_SECRET || '',
       issuer: `${process.env.NEXT_PUBLIC_KEYCLOAK_BASE_URL}/realms/master`,
+
     }),
   ],
   callbacks: {

@@ -37,6 +37,7 @@ export default function CalcForm() {
     if (postalCode) {
       console.log("Form Submitted:", data);
       const response: PossibleResultType[] = await calculate(data, postalCode);
+      console.log("response:", response);
       if (possibleResults.length > 0 && possibleResults[0].requestValues !== data) {
         // combine the two arrays
         setPossibleResults([...possibleResults, ...response]);

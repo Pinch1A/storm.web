@@ -25,7 +25,7 @@ export interface ProductType {
   id: string;
   name: string;
   bank_id: string;
-  interests?: InterestItemType[];
+  interest?: InterestItemType[];
   type: 'fixed' | 'variable';
   bank?: BankType;
   rr_threshold: number;
@@ -34,7 +34,7 @@ export interface ProductType {
 export interface InterestItemType {
   id: string;
   product_id: string;
-  ltvRange: string;
+  ltvrange: string;
   years: string;
   rate: string;
 }
