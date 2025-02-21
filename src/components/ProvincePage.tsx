@@ -13,8 +13,9 @@ import storageUtil from "@/utils/storageUtil";
 const ProvincePage: React.FC = () => {
   const [provinceData, setProvinceData] = useState<ProvinceItemType[]>([]);
   const [loading, setLoading] = useState(false);
-  const { postalCode, setPostalCode } = useAppContext();
+  const { postalCode, setPostalCode, setIsDataStale } = useAppContext();
   const router = useRouter();
+
   useEffect(() => {
     const loadProvinces = async () => {
       setLoading(true);
@@ -23,6 +24,7 @@ const ProvincePage: React.FC = () => {
       await fetchAndSaveData("sussistenza");
       if (provinces) {
         setProvinceData(provinces as ProvinceItemType[]);
+        setIsDataStale(false);
       }
       setLoading(false);
     };
@@ -34,6 +36,7 @@ const ProvincePage: React.FC = () => {
     } else {
       console.log("Loading provinces from storage...");
       setProvinceData(provinceStorage);
+      setIsDataStale(false);
     }
   }, []);
 

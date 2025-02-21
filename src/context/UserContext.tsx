@@ -39,7 +39,6 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
         headers: { Authorization: `Bearer ${accessToken}` },
       });
 
-      console.log("Fetched user info from Keycloak:", response.data);
       return response.data;
     } catch (error) {
       console.error("Error fetching additional user info:", error);

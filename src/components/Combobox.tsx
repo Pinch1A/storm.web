@@ -81,7 +81,6 @@ export function Combobox({
                     key={option.value}
                     value={option.label}
                     onSelect={(currentValue) => {
-                      console.log("currentValue", currentValue)
                       setOpen(false)
                       onSelect(options.find((option) => option.label === currentValue)?.value || "")
                     }}

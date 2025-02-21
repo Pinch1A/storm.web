@@ -17,7 +17,7 @@ export interface BankType {
   id: string;
   name: string;
   rr_method: 'bello' | 'brutto';
-  sussistenza?: SussistenzaItemType[];
+  // sussistenza?: SussistenzaItemType[];
   polizze?: PolizzeItemType[];
 }
 
@@ -26,6 +26,7 @@ export interface ProductType {
   name: string;
   bank_id: string;
   interest?: InterestItemType[];
+  sussistenza?: SussistenzaItemType[];
   type: 'fixed' | 'variable';
   bank?: BankType;
   rr_threshold: number;

@@ -18,7 +18,6 @@ const LoginPage = () => {
     // }
     // Redirect to /api/auth/signin?callbackUrl=/login?realm=... (or similar)
     // Here we pass the realm in the query string so our API route can build the issuer dynamically.
-    console.log("handleSignIn", realm);
     await signIn("keycloak", {
       realm: realm,
       callbackUrl: `/login?realm=master`,

@@ -16,7 +16,7 @@ export const fetchInterestsData = async (): Promise<InterestItemType[]> => {
 
     const interests = await interestsResponse.json();
 
-    console.log('Fetched interests:', interests);
+    // console.log('Fetched interests:', interests);
     return interests as InterestItemType[];
   } catch (error) {
     console.error('Error fetching Interests data:', error);

@@ -32,12 +32,9 @@ export default function CalcForm() {
   });
 
   const handleFormSubmit = async (data: FormFields) => {
-    console.log("postalCode from form:", postalCode);
     setFormData(data); // Update context
     if (postalCode) {
-      console.log("Form Submitted:", data);
       const response: PossibleResultType[] = await calculate(data, postalCode);
-      console.log("response:", response);
       if (possibleResults.length > 0 && possibleResults[0].requestValues !== data) {
         // combine the two arrays
         setPossibleResults([...possibleResults, ...response]);

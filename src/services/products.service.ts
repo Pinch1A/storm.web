@@ -16,7 +16,6 @@ export const fetchProductsData = async (): Promise<ProductType[]> => {
     const products = await productResponse.json();
 
     const filteredProducts = products.filter((product: ProductType) => product.interest && product.interest?.some(interest => !isNil(interest)));
-    console.log("products:", filteredProducts);
     // Format the data
     const formattedProducts = filteredProducts.map((product: ProductType) => ({
       ...product,
@@ -28,7 +27,6 @@ export const fetchProductsData = async (): Promise<ProductType[]> => {
         : [],
     }));
 
-    console.log('formattedProducts', formattedProducts);
     return formattedProducts as ProductType[];
   } catch (error) {
     console.error('Error fetching Products data:', error);

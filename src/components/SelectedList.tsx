@@ -92,7 +92,6 @@ export const SelectedList = ({
               "bg-gray-500": current !== index
             })}
               onClick={() => {
-                console.log("index", index)
                 setCurrent(index);
                 api?.scrollTo(index);
               }}

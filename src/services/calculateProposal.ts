@@ -7,7 +7,6 @@ import { isNil } from "lodash/fp";
 
 export const calculate = async (formFields: FormFields, province: ProvinceItemType): Promise<PossibleResultType[]> => {
   // Get products from storage
-  console.log('Calculate Proposal');
 
   const products =
     await storageUtil.getData("productData")
@@ -20,7 +19,6 @@ export const calculate = async (formFields: FormFields, province: ProvinceItemTy
 
   // Process each product to filter interests based on LTV and years
   const results: PossibleResultType[] = products.map((product: ProductType) => {
-    console.log("product:", product);
     const filteredInterests = product.interest
       ?.filter((interest: InterestItemType) => {
         // Parse the LTV range (e.g., "10%-20%")

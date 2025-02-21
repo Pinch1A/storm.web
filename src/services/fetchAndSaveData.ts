@@ -25,7 +25,7 @@ export const fetchAndSaveData = async (dataType: string): Promise<FetchedData | 
     const fetchService = serviceMap[dataType];
     if (!fetchService) throw new Error(`No service found for ${dataType}`);
 
-    console.log(`Fetching data for: ${dataType}...`);
+    // console.log(`Fetching data for: ${dataType}...`);
     const data = await fetchService();
 
     // Save data to localStorage
@@ -37,7 +37,7 @@ export const fetchAndSaveData = async (dataType: string): Promise<FetchedData | 
       console.log("Main timestamp updated.");
     }
 
-    console.log(`${dataType} data saved successfully.`);
+    // console.log(`${dataType} data saved successfully.`);
     return data;
   } catch (error) {
     console.error(`Error fetching ${dataType} data:`, error);

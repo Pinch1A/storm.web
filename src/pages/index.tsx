@@ -17,8 +17,6 @@ const HomePage = () => {
     router.push('/province');
   }
 
-  console.log("user", user);
-
   return (
     <>
       <Head>

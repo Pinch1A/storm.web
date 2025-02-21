@@ -33,7 +33,7 @@ export const createStorageUtil = <T>(key: string): StorageUtil<T> => {
       try {
         await storage.setItem(key, data);
         await saveTimestamp();
-        console.log(`Data saved for key "${key}".`);
+        // console.log(`Data saved for key "${key}".`);
       } catch (error) {
         console.error(`Error saving data for key "${key}":`, error);
       }
@@ -57,7 +57,7 @@ export const createStorageUtil = <T>(key: string): StorageUtil<T> => {
       try {
         await storage.removeItem(key);
         await storage.removeItem(timestampKey);
-        console.log(`Data cleared for key "${key}".`);
+        // console.log(`Data cleared for key "${key}".`);
       } catch (error) {
         console.error(`Error clearing data for key "${key}":`, error);
       }

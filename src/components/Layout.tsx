@@ -1,26 +1,21 @@
 // components/Layout.tsx
 
-import { useEffect, useState, type FC, type ReactNode } from "react";
+import { useState, type FC, type ReactNode } from "react";
 import { OutdatedBanner } from "@/components/OutdatedBanner";
-import storageUtil from "@/utils/storageUtil";
 import { fetchAndSaveData } from "@/services/fetchAndSaveData";
 import Navbar from "@/components/Navbar";
 import { useUser } from "@/context/UserContext";
+import { useAppContext } from "@/context/AppContext";
+
 const Layout: FC<{ children: ReactNode }> = ({ children }) => {
   const APP_NAME = "Storm.Credit";
   const [isLoading, setIsLoading] = useState(false);
-  const [isDataStale, setIsDataStale] = useState(false);
+  const { isDataStale, setIsDataStale } = useAppContext();
   const { user } = useUser();
 
-  useEffect(() => {
-    // Check if data timestamp is stale (1 hour)
-    const lastFetched = storageUtil.getTimestamp("dataTimestamp");
-    const isStale = !lastFetched || Date.now() - lastFetched > 3600 * 1000;
-
-    if (isStale) {
-      setIsDataStale(true);
-    }
-  }, []);
+  // useEffect(() => {
+  //   checkDataStale();
+  // }, []);
 
   const handleUpdateData = async () => {
     // Refetch province as it's the main data
@@ -31,8 +26,8 @@ const Layout: FC<{ children: ReactNode }> = ({ children }) => {
     await fetchAndSaveData("product");
     await fetchAndSaveData("sussistenza");
 
-    setIsDataStale(false);
     setIsLoading(false);
+    setIsDataStale(false);
   };
 
   return (

@@ -57,7 +57,6 @@ export const calculate = async (formFields: FormFields, province: ProvinceItemTy
       province,
     } as PossibleResultType;
 
-    console.log("calculate result", result);
     return result;
   });
 

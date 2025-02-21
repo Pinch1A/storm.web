@@ -22,12 +22,13 @@ const SelectedItem = ({
 
   // Precompute sussistenza values for all possibleResults to avoid recalculating during each render
   const computedResult = useMemo(() => {
-    // const results = possibleResults.map((result) => {
     const redditoMensile = result.requestValues.reddito?.amount ? parseFloat(result.requestValues.reddito.amount.toString()) / (result.requestValues.reddito.type === 'Annual' ? 12 : 1) : 0;
     const financialDebtsMensile = result.requestValues.financialDebts?.amount ? parseFloat(result.requestValues.financialDebts.amount.toString()) / (result.requestValues.financialDebts.type === 'Annual' ? 12 : 1) : 0;
 
+    // TODO: Calculate hasRRIssues and hasGeneralIssues based on the product.rata_reddito
+
     const hasRRIssues = result.proposal?.some((proposal) => proposal.incomeFeePerc >= result.product.rr_threshold);
-    const matchingSussistenza = result.product.bank?.sussistenza?.find(
+    const matchingSussistenza = result.product.sussistenza.find(
       (sussistenza) => sussistenza.persons === sussiPersons
     );
     const hasGeneralIssues = !!((redditoMensile - financialDebtsMensile - (result.proposal?.[0]?.fee ?? 0)) <= 0);
