@@ -41,7 +41,7 @@ export const calculate = async (formFields: FormFields, province: ProvinceItemTy
           fee: rata,
           incomeFeePerc: (reddito && rrMethod) ? calcolaRR(rata, rrMethod, reddito, financialDebts) : null, // Calculate income-to-fee ratio
           isSelected: false,
-          sussistenza: product.bank?.sussistenza,
+          sussistenza: product.sussistenza,
         };
       });
 

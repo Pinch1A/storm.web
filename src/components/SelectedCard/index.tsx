@@ -28,7 +28,7 @@ const SelectedItem = ({
     // TODO: Calculate hasRRIssues and hasGeneralIssues based on the product.rata_reddito
 
     const hasRRIssues = result.proposal?.some((proposal) => proposal.incomeFeePerc >= result.product.rr_threshold);
-    const matchingSussistenza = result.product.sussistenza.find(
+    const matchingSussistenza = result.product.sussistenza?.find(
       (sussistenza) => sussistenza.persons === sussiPersons
     );
     const hasGeneralIssues = !!((redditoMensile - financialDebtsMensile - (result.proposal?.[0]?.fee ?? 0)) <= 0);
