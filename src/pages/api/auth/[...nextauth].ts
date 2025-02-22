@@ -15,6 +15,7 @@ export default NextAuth({
       // Store the access token from Keycloak in the JWT token
       if (account) {
         token.accessToken = account.access_token
+        token.refreshToken = account.refresh_token
         token.idToken = account.id_token
       }
 
@@ -37,7 +38,11 @@ export default NextAuth({
       return baseUrl // Redirect to home after login
     },
   },
+  // pages: {
+  //   signIn: '/auth/signin',
+  // },
   session: {
     strategy: 'jwt',
   },
+  debug: true, // Set to false in production
 })

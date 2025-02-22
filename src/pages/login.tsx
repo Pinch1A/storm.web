@@ -1,8 +1,11 @@
+import { useUser } from "@/context/UserContext";
 import { signIn } from "next-auth/react";
 import Head from "next/head";
-
+import { useEffect } from "react";
+import { useRouter } from "next/router";
 const LoginPage = () => {
-
+  const { user } = useUser();
+  const router = useRouter();
   // Optionally, if realm is missing, you might want to redirect or show an error.
   // useEffect(() => {
   //   if (!realm) {
@@ -10,6 +13,12 @@ const LoginPage = () => {
   //     console.warn("No realm found in URL. Please ensure the URL is in the format /[realm]/login");
   //   }
   // }, [realm]);
+
+  useEffect(() => {
+    if (user) {
+      router.push("/province");
+    }
+  }, [user]);
 
   const handleSignIn = async (realm: string) => {
     // if (!realm || typeof realm !== "string") {

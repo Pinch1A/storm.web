@@ -5,11 +5,12 @@ import Link from 'next/link';
 import { Badge } from './ui/badge';
 import { signOut, signIn } from 'next-auth/react';
 import { useUser } from '@/context/UserContext';
+import { useRouter } from 'next/router';
 
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { user, loading } = useUser();
-
+  const router = useRouter();
   const toggle = () => setIsOpen(!isOpen);
 
   const handleLogin = async () => {
@@ -18,6 +19,41 @@ const NavBar = () => {
       callbackUrl: `/login?realm=master`,
     });
   };
+
+  console.log("user", user);
+  const handleLogout = async () => {
+
+    // Fetch the logout URL from your API
+    const res = await fetch('/api/auth/keycloak-admin', { method: 'POST', body: JSON.stringify({ token_id: user?.idToken }) });
+    const data = await res.json();
+
+    if (res.ok) {
+      // Redirect the user to the logout URL provided by the API
+      window.location.href = data.logoutUrl;
+    } else {
+      console.error('Failed to get logout URL');
+    }
+  };
+
+  // const handleLogout = async () => {
+  //   try {
+  //     const res = await fetch('/api/auth/keycloak-admin', {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //       body: JSON.stringify({ accessToken: user?.accessToken, refreshToken: user?.refreshToken, token_id: user?.idToken }),
+  //     });
+
+  //     if (res.ok) {
+  //       await signOut({ callbackUrl: '/' });
+  //     } else {
+  //       console.error('Logout failed at Keycloak');
+  //     }
+  //   } catch (error) {
+  //     console.error('Logout request failed:', error);
+  //   }
+  // };
 
   return (
     <nav className="bg-white shadow-md">
@@ -75,7 +111,7 @@ const NavBar = () => {
                         Profile
                       </Link>
                       <button
-                        onClick={() => signOut()}
+                        onClick={handleLogout}
                         className="w-full text-left block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                       >
                         Log out

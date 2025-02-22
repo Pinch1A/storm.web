@@ -2,6 +2,7 @@ import axios from "axios";
 import { createContext, useContext, useEffect, useState } from "react";
 import { useSession, signIn } from "next-auth/react";
 import { Session } from "next-auth";
+import { useRouter } from "next/router";
 
 interface UserContextType {
   user: SessionUser | null;
@@ -19,12 +20,15 @@ interface SessionUser {
 
 interface CustomSession extends Session {
   user: SessionUser;
+  idToken?: string;
   accessToken?: string;
+  refreshToken?: string;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export function UserProvider({ children }: { children: React.ReactNode }) {
+  const router = useRouter();
   const { data: sessionData, status } = useSession();
   const session = sessionData as CustomSession | null; // Ensure correct type
   const [user, setUser] = useState<SessionUser | null>(session?.user || null);
@@ -65,8 +69,9 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
       if (session?.user && session.accessToken) {
         // Check if token has expired
         if (isTokenExpired(session.accessToken)) {
+          router.push("/");
           console.warn("Session expired, redirecting to login.");
-          signIn(); // Redirect to login
+          // signIn(); // Redirect to login
           return;
         }
 
@@ -74,13 +79,13 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
         try {
           const additionalUserInfo = await fetchAdditionalUserInfo(session.accessToken);
           if (additionalUserInfo) {
-            setUser({ ...session.user, ...additionalUserInfo });
+            setUser({ ...session.user, ...additionalUserInfo, accessToken: session.accessToken, refreshToken: session.refreshToken, idToken: session.idToken });
           } else {
-            setUser(session.user); // Use only session user if additional info fails
+            setUser({ ...session.user, accessToken: session.accessToken, refreshToken: session.refreshToken, idToken: session.idToken }); // Use only session user if additional info fails
           }
         } catch (error) {
           console.error("Failed to load additional user info:", error);
-          setUser(session.user); // Fall back to session user
+          setUser({ ...session.user, accessToken: session.accessToken, refreshToken: session.refreshToken, idToken: session.idToken }); // Use only session user if additional info fails
         }
       } else {
         setUser(null); // Reset user if no session
